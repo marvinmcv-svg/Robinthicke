@@ -197,7 +197,7 @@ body.menu-open .menu { clip-path: circle(150% at calc(100% - 3rem) 2.5rem); }
 .intro { padding: clamp(6rem, 14vw, 13rem) 0 clamp(5rem, 10vw, 9rem); }
 .intro__text { font-size: clamp(1.8rem, 4.2vw, 4.4rem); line-height: 1.08; letter-spacing: -0.02em; max-width: 22ch; margin-top: 2rem; font-weight: 500; }
 .intro__text em { color: var(--gold-2); }
-.words .w { display: inline-block; opacity: .14; transition: none; }
+.words .w { display: inline-block; opacity: .42; transition: none; }
 .stats { margin-top: clamp(4rem, 8vw, 7rem); display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
 .stat { padding: 2rem 1.5rem 0 0; border-right: 1px solid var(--line); }
 .stat + .stat { padding-left: 1.5rem; }

@@ -203,7 +203,7 @@ const preload = Promise.all(
       })
   )
 );
-const minTime = new Promise((r) => setTimeout(r, reduced ? 200 : 1600));
+const minTime = new Promise((r) => setTimeout(r, reduced ? 200 : 1100));
 Promise.all([preload, minTime, document.fonts.ready]).then(intro);
 
 function intro() {
@@ -375,6 +375,7 @@ gsap.from('.footer__word span', { yPercent: 100, opacity: 0, stagger: 0.12, dura
   lenis.on('scroll', ({ velocity }) => { if (visible && !dragging) vel += velocity * 0.008; });
 
   gsap.ticker.add(() => {
+    if (!visible && !dragging) return; // no work while the ring is off screen
     if (!dragging) {
       vel *= 0.94;
       if (Math.abs(vel) < 0.02) {

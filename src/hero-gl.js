@@ -96,6 +96,11 @@ void main() {
 export function initHeroGL(canvas, slides, state) {
   let renderer;
   try {
+    // Software-rendered WebGL (no GPU) would burn the CPU — keep the static photo instead.
+    const probe = document.createElement('canvas').getContext('webgl');
+    const dbg = probe && probe.getExtension('WEBGL_debug_renderer_info');
+    const name = dbg ? String(probe.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : '';
+    if (!probe || /swiftshader|llvmpipe|software/i.test(name)) return null;
     renderer = new WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
   } catch (e) {
     return null;
