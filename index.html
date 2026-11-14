@@ -7,8 +7,57 @@
   <meta name="description" content="Robin Thicke — five-time GRAMMY® nominee, diamond-selling singer, songwriter and producer. New single “I Know What To Do (IKWTD)” with DreamDoll out now." />
   <meta property="og:title" content="Robin Thicke — Official" />
   <meta property="og:description" content="New single “I Know What To Do (IKWTD)” with DreamDoll, out now." />
-  <meta property="og:image" content="/img/hero.webp" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://robin-thicke.vercel.app/" />
+  <meta property="og:image" content="https://robin-thicke.vercel.app/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Robin Thicke — Official" />
+  <meta name="twitter:description" content="New single “I Know What To Do (IKWTD)” with DreamDoll, out now." />
+  <meta name="twitter:image" content="https://robin-thicke.vercel.app/og.jpg" />
+  <link rel="canonical" href="https://robin-thicke.vercel.app/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta name="theme-color" content="#0b0a09" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": "Robin Thicke",
+    "url": "https://robin-thicke.vercel.app/",
+    "image": "https://robin-thicke.vercel.app/og.jpg",
+    "genre": ["R&B", "Soul", "Pop"],
+    "description": "Five-time GRAMMY® nominee, diamond-selling singer, songwriter and producer.",
+    "sameAs": [
+      "https://www.instagram.com/robinthicke/",
+      "https://www.tiktok.com/@thicketok",
+      "https://www.facebook.com/robinthicke/",
+      "https://www.youtube.com/channel/UCFHZMfLTN8Zg2sUIrLJhRQQ",
+      "https://open.spotify.com/artist/0ZrpamOxcZybMHGg1AYtHP",
+      "https://music.apple.com/us/artist/robin-thicke/290491",
+      "https://en.wikipedia.org/wiki/Robin_Thicke"
+    ],
+    "album": [
+      {"@type": "MusicAlbum", "name": "On Earth, and in Heaven", "datePublished": "2021-02-12"},
+      {"@type": "MusicAlbum", "name": "Paula", "datePublished": "2014-07-01"},
+      {"@type": "MusicAlbum", "name": "Blurred Lines", "datePublished": "2013-07-12"},
+      {"@type": "MusicAlbum", "name": "Love After War", "datePublished": "2011-12-06"},
+      {"@type": "MusicAlbum", "name": "Sex Therapy: The Session", "datePublished": "2009-12-15"},
+      {"@type": "MusicAlbum", "name": "Something Else", "datePublished": "2008-09-30"},
+      {"@type": "MusicAlbum", "name": "The Evolution of Robin Thicke", "datePublished": "2006-10-03"},
+      {"@type": "MusicAlbum", "name": "A Beautiful World", "datePublished": "2002-10-15"}
+    ],
+    "event": [{
+      "@type": "MusicEvent",
+      "name": "Countdown Under the Canopy",
+      "startDate": "2026-12-31",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {"@type": "Place", "name": "Fremont Street Experience", "address": "Las Vegas, NV"},
+      "url": "https://vegasexperience.com/countdown-under-the-canopy/"
+    }]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -39,6 +88,7 @@
       <a href="#discography">Albums</a>
       <a href="#lens">Lens</a>
       <a href="#live">Live</a>
+      <a href="#store">Store</a>
     </nav>
     <a href="#music" class="nav__cta" data-magnetic><span class="dot"></span>New single</a>
     <button class="nav__burger" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
@@ -51,7 +101,8 @@
       <li><a href="#discography"><small>03</small>Albums</a></li>
       <li><a href="#lens"><small>04</small>Lens</a></li>
       <li><a href="#live"><small>05</small>Live</a></li>
-      <li><a href="#contact"><small>06</small>Contact</a></li>
+      <li><a href="#store"><small>06</small>Store</a></li>
+      <li><a href="#contact"><small>07</small>Contact</a></li>
     </ul>
   </div>
 
@@ -74,6 +125,10 @@
       </div>
       <div class="hero__scroll"><span>Scroll</span><i></i></div>
       <div class="hero__coords">LA — 34.05° N, 118.24° W</div>
+      <div class="hero__slides" aria-hidden="true">
+        <div class="hero__slide-txt"><span class="hero__slide-num">01</span><span class="hero__slide-sep">/ 03</span><span class="hero__slide-cap">Mirrors</span></div>
+        <div class="hero__bars"><i class="is-on"></i><i></i><i></i></div>
+      </div>
     </section>
 
     <!-- MARQUEE -->
@@ -185,10 +240,38 @@
       <div class="wrap">
         <p class="eyebrow">On stage</p>
         <h2 class="display live__title">Live<span class="serif">.</span></h2>
+        <div class="countdown" aria-live="off">
+          <p class="countdown__label"><span class="dot"></span>Countdown to midnight — Fremont Street, Las Vegas</p>
+          <div class="countdown__grid">
+            <div><b data-cd="d">00</b><span>Days</span></div>
+            <div><b data-cd="h">00</b><span>Hours</span></div>
+            <div><b data-cd="m">00</b><span>Minutes</span></div>
+            <div><b data-cd="s">00</b><span>Seconds</span></div>
+          </div>
+        </div>
         <ul class="shows"></ul>
         <p class="live__note">More dates announced soon. For private events &amp; bookings, <a href="mailto:RobinThickeInfo@rocnation.com">get in touch</a>.</p>
       </div>
     </section>
+
+    <!-- STORE -->
+    <a class="store" id="store" href="https://www.merchbar.com/pop/robin-thicke" target="_blank" rel="noopener" data-cursor="Shop">
+      <div class="store__rail" aria-hidden="true">
+        <div class="store__track">
+          <span>Official store</span><b>✦</b><span class="serif">Vinyl</span><b>✦</b><span>Apparel</span><b>✦</b><span class="serif">Collectibles</span><b>✦</b>
+          <span>Official store</span><b>✦</b><span class="serif">Vinyl</span><b>✦</b><span>Apparel</span><b>✦</b><span class="serif">Collectibles</span><b>✦</b>
+        </div>
+      </div>
+      <div class="wrap store__row">
+        <p>Records on wax, tees, and the rest of the catalogue. Shipped worldwide.</p>
+        <span class="btn btn--gold"><span>Shop the store</span><b>↗</b></span>
+      </div>
+      <div class="store__covers" aria-hidden="true">
+        <img src="/img/albums/blurred.webp" alt="" loading="lazy" />
+        <img src="/img/albums/evolution.webp" alt="" loading="lazy" />
+        <img src="/img/albums/bw20.webp" alt="" loading="lazy" />
+      </div>
+    </a>
 
     <!-- TV -->
     <section class="tv">
@@ -231,15 +314,22 @@
           <div>
             <p class="eyebrow">Listen</p>
             <a href="https://open.spotify.com/artist/0ZrpamOxcZybMHGg1AYtHP" target="_blank" rel="noopener">Spotify</a>
-            <a href="https://music.apple.com/us/album/1768303061?i=1768303062" target="_blank" rel="noopener">Apple Music</a>
+            <a href="https://music.apple.com/us/artist/robin-thicke/290491" target="_blank" rel="noopener">Apple Music</a>
             <a href="http://www.tidal.com/track/387197191" target="_blank" rel="noopener">TIDAL</a>
             <a href="https://robinthicke.lnk.to/LinkInBio" target="_blank" rel="noopener">All links</a>
           </div>
           <div>
             <p class="eyebrow">Follow</p>
             <a href="https://www.instagram.com/robinthicke/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@thicketok" target="_blank" rel="noopener">TikTok</a>
             <a href="https://www.youtube.com/channel/UCFHZMfLTN8Zg2sUIrLJhRQQ" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.facebook.com/robinthicke/" target="_blank" rel="noopener">Facebook</a>
+          </div>
+          <div>
+            <p class="eyebrow">More</p>
+            <a href="https://www.merchbar.com/pop/robin-thicke" target="_blank" rel="noopener">Store</a>
             <a href="https://www.rocnation.com/music/robin-thicke/" target="_blank" rel="noopener">Roc Nation</a>
+            <a href="mailto:RobinThickeInfo@rocnation.com">Booking</a>
           </div>
         </div>
       </div>
@@ -258,6 +348,34 @@
     <button class="lightbox__nav lightbox__prev" aria-label="Previous">←</button>
     <figure><img alt="" /><figcaption></figcaption></figure>
     <button class="lightbox__nav lightbox__next" aria-label="Next">→</button>
+  </div>
+
+  <!-- NOW PLAYING DOCK -->
+  <div class="dock">
+    <div class="dock__panel" aria-hidden="true">
+      <div class="dock__embed"></div>
+      <a class="dock__all" href="https://robinthicke.lnk.to/LinkInBio" target="_blank" rel="noopener">All platforms ↗</a>
+    </div>
+    <button class="dock__btn" aria-expanded="false" aria-label="Open the music player" data-cursor="Listen">
+      <img src="/img/single.webp" alt="" />
+      <span class="dock__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="dock__txt"><small>Now playing</small>I Know What To Do</span>
+    </button>
+  </div>
+
+  <!-- ALBUM DRAWER -->
+  <div class="drawer" aria-hidden="true" role="dialog" aria-label="Album">
+    <div class="drawer__scrim"></div>
+    <aside class="drawer__panel" data-lenis-prevent>
+      <button class="drawer__close" aria-label="Close">Close ✕</button>
+      <div class="drawer__cover" data-tilt><img alt="" /><span class="glare"></span></div>
+      <p class="drawer__year"></p>
+      <h3 class="drawer__title"></h3>
+      <p class="drawer__label"></p>
+      <p class="drawer__note"></p>
+      <div class="drawer__embed"></div>
+      <a class="btn btn--light drawer__open" href="#" target="_blank" rel="noopener"><span>Open in Spotify</span><b>↗</b></a>
+    </aside>
   </div>
 
   <!-- VIDEO MODAL -->

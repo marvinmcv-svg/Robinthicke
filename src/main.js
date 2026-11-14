@@ -1,8 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { initHeroGL } from './hero-gl.js';
-import { single, albums, timeline, gallery, videos, shows, posts } from './data.js';
+import { single, albums, timeline, gallery, videos, shows, posts, heroSlides, links } from './data.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -138,7 +137,47 @@ $$('.words').forEach((el) => {
 /* ------------------------------------------------------------------ */
 /* Hero WebGL                                                          */
 /* ------------------------------------------------------------------ */
-const gl = reduced ? null : initHeroGL($('.hero__gl'), '/img/hero.webp');
+const heroState = { reveal: 0, scroll: 0, mix: 0 };
+let gl = null;
+// Three.js is code-split: it only downloads after first paint, never blocking the loader.
+if (!reduced) {
+  import('./hero-gl.js').then(({ initHeroGL }) => {
+    gl = initHeroGL($('.hero__gl'), heroSlides, heroState);
+    if (gl) startSlideshow();
+  });
+}
+
+const slideNum = $('.hero__slide-num');
+const slideCap = $('.hero__slide-cap');
+const slideBars = $$('.hero__bars i');
+let slide = 0;
+let slideTimer;
+function goToSlide(next) {
+  if (!gl || !gl.canShow(next) || heroState.mix > 0) return;
+  gl.setPair(slide, next);
+  slideBars.forEach((b, i) => b.classList.toggle('is-on', i === next));
+  gsap.fromTo([slideNum, slideCap], { yPercent: 0, opacity: 1 }, {
+    yPercent: -100, opacity: 0, duration: 0.4, ease: 'expo.in',
+    onComplete: () => {
+      slideNum.textContent = String(next + 1).padStart(2, '0');
+      slideCap.textContent = heroSlides[next].caption;
+      gsap.fromTo([slideNum, slideCap], { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.7, ease: 'expo.out' });
+    },
+  });
+  gsap.to(heroState, {
+    mix: 1, duration: 1.8, ease: 'power2.inOut',
+    onComplete: () => { slide = next; gl.setPair(next, next); heroState.mix = 0; },
+  });
+}
+function startSlideshow() {
+  clearInterval(slideTimer);
+  slideTimer = setInterval(() => goToSlide((slide + 1) % heroSlides.length), 6500);
+}
+$('.hero').addEventListener('click', (e) => {
+  if (e.target.closest('a, button')) return;
+  goToSlide((slide + 1) % heroSlides.length);
+  startSlideshow();
+});
 
 /* ------------------------------------------------------------------ */
 /* Loader -> intro                                                     */
@@ -181,7 +220,7 @@ function intro() {
     .from('.hero__fallback', { scale: 1.3, duration: 2, ease: 'expo.out' }, '-=1.1')
     .from('.hero__title .ch', { yPercent: 110, rotate: 8, duration: 1.4, stagger: 0.05, ease: 'expo.out' }, '-=1.6')
     .from('.hero__eyebrow span, .hero__lede, .hero__meta .btn, .nav > *', { y: 30, opacity: 0, duration: 1.1, stagger: 0.06, ease: 'expo.out' }, '-=1.1');
-  if (gl) tl.to(gl.uReveal, { value: 1, duration: 2.4, ease: 'expo.out' }, 2.0);
+  tl.to(heroState, { reveal: 1, duration: 2.4, ease: 'expo.out' }, 2.0);
 }
 
 /* ------------------------------------------------------------------ */
@@ -200,7 +239,7 @@ lenis.on('scroll', ({ scroll }) => {
 // hero parallax / gl scroll
 gsap.to('.hero__content', { yPercent: -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 gsap.to('.hero__fallback', { scale: 1.15, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-if (gl) gsap.to(gl.uScroll, { value: 1, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+gsap.to(heroState, { scroll: 1, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
 // marquee skew by velocity
 const skewTo = gsap.quickTo('.marquee__track', 'skewX', { duration: 0.4, ease: 'power3' });
@@ -319,7 +358,7 @@ gsap.from('.footer__word span', { yPercent: 100, opacity: 0, stagger: 0.12, dura
     const it = e.target.closest('.ring__item');
     if (!it) return;
     const i = +it.dataset.i;
-    if (i === active) window.open(albums[i].url, '_blank', 'noopener');
+    if (i === active) openAlbum(i);
     else {
       // rotate shortest way to item
       let target = -i * step;
@@ -462,5 +501,104 @@ $('.nav__burger').addEventListener('click', () => {
   m.addEventListener('click', (e) => { if (e.target === m) close(); });
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && m.classList.contains('is-open')) close(); });
 })();
+
+/* ------------------------------------------------------------------ */
+/* Album drawer — listen inline, without leaving the site              */
+/* ------------------------------------------------------------------ */
+const drawer = $('.drawer');
+function openAlbum(i) {
+  const a = albums[i];
+  const id = (a.url.match(/open\.spotify\.com\/album\/(\w+)/) || [])[1];
+  $('.drawer__cover img').src = a.cover;
+  $('.drawer__cover img').alt = a.title + ' cover';
+  $('.drawer__year').textContent = a.date;
+  $('.drawer__title').textContent = a.title + (a.sub ? ` — ${a.sub}` : '');
+  $('.drawer__label').textContent = a.label;
+  $('.drawer__note').textContent = a.note || '';
+  $('.drawer__open').href = a.url;
+  $('.drawer__open span').textContent = id ? 'Open in Spotify' : 'Listen everywhere';
+  $('.drawer__embed').innerHTML = id
+    ? `<iframe src="https://open.spotify.com/embed/album/${id}?utm_source=generator&theme=0" title="${a.title} on Spotify" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`
+    : '';
+  drawer.classList.add('is-open');
+  drawer.setAttribute('aria-hidden', 'false');
+  lenis.stop();
+  gsap.fromTo('.drawer__panel > *', { y: 30, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.05, duration: 0.9, ease: 'expo.out', delay: 0.25 });
+  $('.drawer__close').focus();
+}
+function closeAlbum() {
+  drawer.classList.remove('is-open');
+  drawer.setAttribute('aria-hidden', 'true');
+  setTimeout(() => ($('.drawer__embed').innerHTML = ''), 600);
+  lenis.start();
+}
+$('.drawer__close').addEventListener('click', closeAlbum);
+$('.drawer__scrim').addEventListener('click', closeAlbum);
+window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeAlbum(); });
+$$('.card').forEach((c, i) =>
+  c.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // keep "open in new tab"
+    e.preventDefault();
+    openAlbum(i);
+  })
+);
+$('.disco__play').addEventListener('click', (e) => {
+  if (e.metaKey || e.ctrlKey) return;
+  e.preventDefault();
+  const i = albums.findIndex((a) => a.url === $('.disco__play').getAttribute('href'));
+  openAlbum(i < 0 ? 0 : i);
+});
+
+/* ------------------------------------------------------------------ */
+/* Now-playing dock — Spotify player, loaded only on first open        */
+/* ------------------------------------------------------------------ */
+(() => {
+  const dock = $('.dock');
+  const btn = $('.dock__btn');
+  const embed = $('.dock__embed');
+  btn.addEventListener('click', () => {
+    const open = dock.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open);
+    $('.dock__panel').setAttribute('aria-hidden', !open);
+    if (open && !embed.firstChild) {
+      embed.innerHTML = `<iframe src="https://open.spotify.com/embed/track/0gBpWtJ2q1aJ9i2ynzYd3X?utm_source=generator&theme=0" title="I Know What To Do on Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+    }
+  });
+  ScrollTrigger.create({
+    trigger: '.hero', start: 'bottom 80%',
+    onEnter: () => dock.classList.add('is-visible'),
+    onLeaveBack: () => { if (!dock.classList.contains('is-open')) dock.classList.remove('is-visible'); },
+  });
+})();
+
+/* ------------------------------------------------------------------ */
+/* Live countdown                                                      */
+/* ------------------------------------------------------------------ */
+(() => {
+  const next = shows.find((s) => s.countdownTo && new Date(s.countdownTo) > new Date());
+  const box = $('.countdown');
+  if (!next) { box.hidden = true; return; }
+  const els = { d: $('[data-cd="d"]'), h: $('[data-cd="h"]'), m: $('[data-cd="m"]'), s: $('[data-cd="s"]') };
+  const target = new Date(next.countdownTo).getTime();
+  const pad = (n) => String(n).padStart(2, '0');
+  const tick = () => {
+    let t = Math.max(0, Math.floor((target - Date.now()) / 1000));
+    const d = Math.floor(t / 86400); t %= 86400;
+    const vals = { d: pad(d), h: pad(Math.floor(t / 3600)), m: pad(Math.floor((t % 3600) / 60)), s: pad(t % 60) };
+    for (const k in vals) if (els[k].textContent !== vals[k]) {
+      els[k].textContent = vals[k];
+      if (!reduced) gsap.fromTo(els[k], { yPercent: -30, opacity: 0.3 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: 'expo.out' });
+    }
+  };
+  tick();
+  setInterval(tick, 1000);
+  gsap.from('.countdown__grid > div', { y: 60, opacity: 0, stagger: 0.08, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: box, start: 'top 85%' } });
+})();
+
+// store covers fan out as it scrolls in
+gsap.fromTo('.store__covers img', { rotate: 0, xPercent: 0 }, {
+  rotate: (i) => (i - 1) * 12, xPercent: (i) => (i - 1) * 55, ease: 'none',
+  scrollTrigger: { trigger: '.store', start: 'top bottom', end: 'center center', scrub: 1 },
+});
 
 window.addEventListener('load', () => ScrollTrigger.refresh());

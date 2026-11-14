@@ -8,7 +8,17 @@ export const links = {
   linkinbio: 'https://robinthicke.lnk.to/LinkInBio',
   booking: 'mailto:RobinThickeInfo@rocnation.com',
   rocnation: 'https://www.rocnation.com/music/robin-thicke/',
+  store: 'https://www.merchbar.com/pop/robin-thicke',
+  facebook: 'https://www.facebook.com/robinthicke/',
+  tiktok: 'https://www.tiktok.com/@thicketok',
+  applemusic: 'https://music.apple.com/us/artist/robin-thicke/290491',
 };
+
+export const heroSlides = [
+  { src: '/img/hero.webp', focus: 0.5, caption: 'Mirrors' },
+  { src: '/img/live.webp', focus: 0.5, caption: 'Smoke & strings' },
+  { src: '/img/press-1.webp', focus: 0.7, caption: 'Portrait — Matthew Takes' },
+];
 
 export const single = {
   title: 'I Know What To Do',
@@ -66,7 +76,7 @@ export const videos = [
 ];
 
 export const shows = [
-  { date: '2026-12-31', city: 'Las Vegas, NV', venue: 'Countdown Under the Canopy — Fremont Street Experience', url: 'https://vegasexperience.com/countdown-under-the-canopy/', img: '/img/live.webp', status: 'Tickets' },
+  { date: '2026-12-31', city: 'Las Vegas, NV', venue: 'Countdown Under the Canopy — Fremont Street Experience', url: 'https://vegasexperience.com/countdown-under-the-canopy/', img: '/img/live.webp', status: 'Tickets', countdownTo: '2027-01-01T08:00:00Z' },
 ];
 
 export const posts = [
