@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Music — Robin Thicke</title>
+  <meta name="description" content="Every Robin Thicke record, with 30-second previews of every track and links to Spotify." />
+  <meta property="og:title" content="Music — Robin Thicke" />
+  <meta property="og:description" content="Every Robin Thicke record, with 30-second previews of every track and links to Spotify." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://robin-thicke.vercel.app/music/" />
+  <meta property="og:image" content="https://robin-thicke.vercel.app/og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://robin-thicke.vercel.app/music/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0b0a09" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="stylesheet" href="/src/site.css" />
+</head>
+<body class="page-music">
+  <main id="top">
+    <header class="phead">
+      <div class="phead__bg" style="background-image:url(/img/albums/blurred.webp)"></div>
+      <div class="wrap">
+        <p class="phead__crumb"><a href="/">Robin Thicke</a> / Music</p>
+        <h1 class="display">The <span class="serif">records</span></h1>
+        <p class="phead__lede">Nine albums, from the 2002 debut to the 20th-anniversary reissue. Tap any track for a 30-second preview, or open it on Spotify for the full song.</p>
+        <div class="phead__stats"><div><b>9</b><span>Albums</span></div><div><b>#1</b><span>Billboard 200</span></div><div><b>2.09M</b><span>YouTube subscribers</span></div></div>
+      </div>
+    </header>
+    <section class="section" id="singles">
+      <div class="wrap">
+        <div class="section__head"><h2 class="display">Latest<span class="serif"> singles</span></h2><p>The newest music, on every platform.</p></div>
+        <div class="singles"></div>
+      </div>
+    </section>
+    <section class="section" id="albums">
+      <div class="wrap">
+        <div class="section__head"><h2 class="display">Albums</h2><p>Open a record to see the tracklist. ▶ plays a preview; ↗ opens the song on Spotify.</p></div>
+        <div class="recs"></div>
+      </div>
+    </section>
+    <footer data-footer></footer>
+  </main>
+  <script type="module" src="/src/music.js"></script>
+</body>
+</html>

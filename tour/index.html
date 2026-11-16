@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tour — Robin Thicke</title>
+  <meta name="description" content="Robin Thicke live: upcoming shows, tickets, past dates and bookings." />
+  <meta property="og:title" content="Tour — Robin Thicke" />
+  <meta property="og:description" content="Robin Thicke live: upcoming shows, tickets, past dates and bookings." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://robin-thicke.vercel.app/tour/" />
+  <meta property="og:image" content="https://robin-thicke.vercel.app/og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://robin-thicke.vercel.app/tour/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0b0a09" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="stylesheet" href="/src/site.css" />
+</head>
+<body class="page-tour">
+  <main id="top">
+    <header class="phead">
+      <div class="phead__bg" style="background-image:url(/img/live.webp)"></div>
+      <div class="wrap">
+        <p class="phead__crumb"><a href="/">Robin Thicke</a> / Tour</p>
+        <h1 class="display">On <span class="serif">stage</span></h1>
+        <p class="phead__lede">Upcoming shows, recent nights and how to bring the band to your event.</p>
+        
+      </div>
+    </header>
+    <section class="section">
+      <div class="wrap tourhero">
+        <div class="tour__ticket"></div>
+        <div class="tourhero__side">
+          <h3>Coming up</h3>
+          <p>Tickets are sold by each venue. New dates are announced on Instagram first.</p>
+          <ul class="gigs"></ul>
+          <a class="btn btn--light" href="https://www.instagram.com/robinthicke/" target="_blank" rel="noopener" data-magnetic><span>Follow for dates</span><b>↗</b></a>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="archive">
+      <div class="wrap">
+        <div class="section__head"><h2 class="display">Past<span class="serif"> shows</span></h2><p>Stadiums, festivals, casinos and black-tie galas.</p></div>
+        <div class="archives"></div>
+      </div>
+    </section>
+    <section class="section" id="booking">
+      <div class="wrap">
+        <div class="booking">
+          <div><p class="eyebrow">Private events &amp; bookings</p><h3>Bring Robin<br/>to your stage.</h3><p>Festivals, corporate nights, weddings and galas. Robin's team at Roc Nation handles every booking.</p></div>
+          <div class="booking__ctas">
+            <button class="booking__marvin" type="button" data-marvin="booking"><span class="booking__face"></span><span><b>Tell Marvin the details</b><small>He drafts the inquiry for you</small></span></button>
+            <a class="link-arrow" href="mailto:RobinThickeInfo@rocnation.com">Or email RobinThickeInfo@rocnation.com</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer data-footer></footer>
+  </main>
+  <script type="module" src="/src/tour.js"></script>
+</body>
+</html>

@@ -50,6 +50,12 @@
     ],
     "event": [{
       "@type": "MusicEvent",
+      "name": "Cathedral City International Hot Air Balloon Festival",
+      "startDate": "2026-11-21",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {"@type": "Place", "name": "Cathedral City Community Amphitheater", "address": "Cathedral City, CA"}
+    }, {
+      "@type": "MusicEvent",
       "name": "Countdown Under the Canopy",
       "startDate": "2026-12-31",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
@@ -63,6 +69,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="/img/hero.webp" />
   <link rel="stylesheet" href="/src/style.css" />
+  <link rel="stylesheet" href="/src/site.css" />
 </head>
 <body class="is-loading">
   <!-- PRELOADER -->
@@ -75,37 +82,6 @@
     <div class="loader__curtain"></div>
   </div>
 
-  <div class="grain" aria-hidden="true"></div>
-  <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
-  <div class="progress" aria-hidden="true"><i></i></div>
-
-  <!-- NAV -->
-  <header class="nav">
-    <a href="#top" class="nav__logo" data-magnetic>RT<em>.</em></a>
-    <nav class="nav__links" aria-label="Primary">
-      <a href="#music">Music</a>
-      <a href="#story">Story</a>
-      <a href="#discography">Albums</a>
-      <a href="#lens">Lens</a>
-      <a href="#live">Live</a>
-      <a href="#store">Store</a>
-    </nav>
-    <a href="#music" class="nav__cta" data-magnetic><span class="dot"></span>New single</a>
-    <button class="nav__burger" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
-  </header>
-
-  <div class="menu" aria-hidden="true">
-    <ul>
-      <li><a href="#music"><small>01</small>Music</a></li>
-      <li><a href="#story"><small>02</small>Story</a></li>
-      <li><a href="#discography"><small>03</small>Albums</a></li>
-      <li><a href="#lens"><small>04</small>Lens</a></li>
-      <li><a href="#live"><small>05</small>Live</a></li>
-      <li><a href="#store"><small>06</small>Store</a></li>
-      <li><a href="#contact"><small>07</small>Contact</a></li>
-    </ul>
-  </div>
-
   <main id="top">
     <!-- HERO -->
     <section class="hero">
@@ -114,13 +90,11 @@
       <div class="hero__shade"></div>
       <div class="hero__content">
         <p class="eyebrow hero__eyebrow"><span>Singer</span><span>Songwriter</span><span>Producer</span></p>
-        <h1 class="hero__title" aria-label="Robin Thicke">
-          <span class="line"><span class="split">ROBIN</span></span>
-          <span class="line line--serif"><span class="split">Thicke</span></span>
-        </h1>
-        <div class="hero__meta">
-          <p class="hero__lede">Five-time GRAMMY<sup>®</sup> nominee. Diamond-selling. <em>Still evolving.</em></p>
+        <h1 class="hero__title" aria-label="Robin Thicke"><span class="line"><span class="split">ROBIN</span></span> <span class="line line--serif"><span class="split">Thicke</span></span></h1>
+        <p class="hero__lede">Five-time GRAMMY<sup>®</sup> nominee. Diamond-selling. <em>Still evolving.</em></p>
+        <div class="hero__ctas">
           <a href="#music" class="btn btn--light" data-magnetic data-cursor="Listen"><span>Listen to IKWTD</span><b>↘</b></a>
+          <a href="/tour/" class="hero__link">Next show →</a>
         </div>
       </div>
       <div class="hero__scroll"><span>Scroll</span><i></i></div>
@@ -164,6 +138,7 @@
       <div class="wrap">
         <p class="eyebrow">The story</p>
         <p class="intro__text words">Taught himself piano at twelve. Writing for R&amp;B royalty at sixteen. By twenty-one, songs on more than twenty gold and platinum albums — <em>Michael Jackson, Usher, Christina Aguilera, Pink.</em> Then he stepped out from behind the board and became the voice.</p>
+        <a class="link-arrow intro__more" href="/story/">Read the full story →</a>
         <div class="stats">
           <div class="stat"><b data-count="5">0</b><span>GRAMMY® nominations</span></div>
           <div class="stat"><b data-count="12">0</b><span>Weeks at #1, Hot 100</span></div>
@@ -173,29 +148,11 @@
       </div>
     </section>
 
-    <!-- TIMELINE (horizontal pinned) -->
-    <section class="timeline">
-      <div class="timeline__head wrap">
-        <h2 class="display">Evolution<em>,</em><br /><span class="serif">in eight frames</span></h2>
-      </div>
-      <div class="timeline__track"></div>
-    </section>
-
-    <!-- QUOTE -->
-    <section class="quote">
-      <div class="wrap">
-        <blockquote>
-          <p class="words">“I feel like I’m finally the person I set out to be. <em>This music is the sunshine coming out after the rain.</em>”</p>
-          <cite>— Robin Thicke on <i>On Earth, and in Heaven</i></cite>
-        </blockquote>
-      </div>
-    </section>
-
     <!-- DISCOGRAPHY 3D -->
     <section class="disco" id="discography">
       <div class="wrap disco__head">
         <h2 class="display">Disco<span class="serif">graphy</span></h2>
-        <p class="disco__hint">Drag to spin · Click to play</p>
+        <p class="disco__hint">Drag to spin · Click to play · <a href="/music/">Every track →</a></p>
       </div>
       <div class="ring" data-cursor="Drag">
         <div class="ring__stage"><div class="ring__spin"></div></div>
@@ -235,22 +192,19 @@
     </section>
 
     <!-- LIVE -->
-    <section class="live" id="live">
-      <div class="live__bg" style="background-image:url(/img/live.webp)"></div>
-      <div class="wrap">
-        <p class="eyebrow">On stage</p>
-        <h2 class="display live__title">Live<span class="serif">.</span></h2>
-        <div class="countdown" aria-live="off">
-          <p class="countdown__label"><span class="dot"></span>Countdown to midnight — Fremont Street, Las Vegas</p>
-          <div class="countdown__grid">
-            <div><b data-cd="d">00</b><span>Days</span></div>
-            <div><b data-cd="h">00</b><span>Hours</span></div>
-            <div><b data-cd="m">00</b><span>Minutes</span></div>
-            <div><b data-cd="s">00</b><span>Seconds</span></div>
-          </div>
+    <section class="stage" id="live">
+      <div class="stage__bg"><img src="/img/live.webp" alt="" loading="lazy" /></div>
+      <div class="stage__beam" aria-hidden="true"></div>
+      <div class="stage__word" aria-hidden="true"><span>On stage · On stage · On stage · On stage · </span><span>On stage · On stage · On stage · On stage · </span></div>
+      <div class="wrap stage__grid">
+        <div class="stage__head">
+          <p class="eyebrow">On stage</p>
+          <h2 class="display">Live<span class="serif">.</span></h2>
+          <p class="stage__lede">The band, the falsetto, the piano. Catch it in the room.</p>
+          <ul class="stage__next"></ul>
+          <a class="link-arrow" href="/tour/">All dates &amp; past shows →</a>
         </div>
-        <ul class="shows"></ul>
-        <p class="live__note">More dates announced soon. For private events &amp; bookings, <a href="mailto:RobinThickeInfo@rocnation.com">get in touch</a>.</p>
+        <div class="stage__ticket"></div>
       </div>
     </section>
 
@@ -274,72 +228,30 @@
     </a>
 
     <!-- TV -->
-    <section class="tv">
-      <div class="wrap tv__grid">
-        <article class="tv__card" data-tilt>
-          <span class="tv__k">FOX · Since 2019</span>
-          <h3>The Masked Singer</h3>
-          <p>Panelist alongside Ken Jeong, Jenny McCarthy Wahlberg and Rita Ora, with host Nick Cannon — now 14 seasons in.</p>
-          <span class="glare"></span>
-        </article>
-        <article class="tv__card" data-tilt>
-          <span class="tv__k">2026 · Band leader</span>
-          <h3>Name That Tune</h3>
-          <p>The new band leader on the classic music game show — the piano prodigy, back at the keys every week.</p>
-          <span class="glare"></span>
-        </article>
+    <section class="tv" id="tv">
+      <div class="wrap">
+        <div class="tv__head">
+          <h2 class="display">Prime<span class="serif"> time</span></h2>
+          <p>Two shows, two jobs: guessing voices on Fox, and leading the band on Name That Tune.</p>
+        </div>
+        <div class="tv__wrap"></div>
       </div>
     </section>
 
     <!-- INSTAGRAM -->
     <section class="ig">
-      <div class="wrap">
-        <div class="ig__head">
-          <h2 class="display">@robinthicke</h2>
-          <p><b data-count="795568">0</b> followers on Instagram</p>
-          <a class="btn btn--light" href="https://www.instagram.com/robinthicke/" target="_blank" rel="noopener" data-magnetic><span>Follow</span><b>↗</b></a>
-        </div>
+      <div class="wrap ig__head">
+        <a class="ig__id" href="https://www.instagram.com/robinthicke/" target="_blank" rel="noopener">
+          <span class="ig__avatar"><img src="/img/face.webp" alt="" /></span>
+          <span><b>@robinthicke</b><small><span data-count="795527">795,527</span> followers · Verified</small></span>
+        </a>
+        <p class="ig__sub">Straight from the feed: family, tour nights, twenty years of <em>The Evolution</em>.</p>
+        <a class="btn btn--light" href="https://www.instagram.com/robinthicke/" target="_blank" rel="noopener" data-magnetic><span>Follow</span><b>↗</b></a>
       </div>
-      <div class="ig__rail"><div class="ig__track"></div></div>
+      <div class="ig__track"></div>
     </section>
 
-    <!-- CONTACT / FOOTER -->
-    <footer class="footer" id="contact">
-      <div class="wrap footer__top">
-        <div>
-          <p class="eyebrow">Booking inquiries</p>
-          <a class="footer__mail" href="mailto:RobinThickeInfo@rocnation.com" data-cursor="Email">RobinThickeInfo<br />@rocnation.com</a>
-        </div>
-        <div class="footer__cols">
-          <div>
-            <p class="eyebrow">Listen</p>
-            <a href="https://open.spotify.com/artist/0ZrpamOxcZybMHGg1AYtHP" target="_blank" rel="noopener">Spotify</a>
-            <a href="https://music.apple.com/us/artist/robin-thicke/290491" target="_blank" rel="noopener">Apple Music</a>
-            <a href="http://www.tidal.com/track/387197191" target="_blank" rel="noopener">TIDAL</a>
-            <a href="https://robinthicke.lnk.to/LinkInBio" target="_blank" rel="noopener">All links</a>
-          </div>
-          <div>
-            <p class="eyebrow">Follow</p>
-            <a href="https://www.instagram.com/robinthicke/" target="_blank" rel="noopener">Instagram</a>
-            <a href="https://www.tiktok.com/@thicketok" target="_blank" rel="noopener">TikTok</a>
-            <a href="https://www.youtube.com/channel/UCFHZMfLTN8Zg2sUIrLJhRQQ" target="_blank" rel="noopener">YouTube</a>
-            <a href="https://www.facebook.com/robinthicke/" target="_blank" rel="noopener">Facebook</a>
-          </div>
-          <div>
-            <p class="eyebrow">More</p>
-            <a href="https://www.merchbar.com/pop/robin-thicke" target="_blank" rel="noopener">Store</a>
-            <a href="https://www.rocnation.com/music/robin-thicke/" target="_blank" rel="noopener">Roc Nation</a>
-            <a href="mailto:RobinThickeInfo@rocnation.com">Booking</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer__word" aria-hidden="true"><span>ROBIN</span><span class="serif">Thicke</span></div>
-      <div class="wrap footer__bottom">
-        <span>© <span class="yr"></span> Robin Thicke</span>
-        <span class="footer__dedic">Miss u Pops &amp; Andre Harrell ♥</span>
-        <a href="#top" class="link-arrow">Back to top ↑</a>
-      </div>
-    </footer>
+    <footer data-footer></footer>
   </main>
 
   <!-- LIGHTBOX -->

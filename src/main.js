@@ -1,29 +1,13 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
-import { single, albums, timeline, gallery, videos, shows, posts, heroSlides, links } from './data.js';
-
-gsap.registerPlugin(ScrollTrigger);
-
-const $ = (s, el = document) => el.querySelector(s);
-const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+import { $, $$, gsap, ScrollTrigger, lenis, reduced, fine, tilt, reveals, magnetic } from './shell.js';
+import { single, albums, gallery, videos, heroSlides } from './data.js';
+import { renderTicket, showRow } from './live.js';
+import { initTV, initIG } from './widgets.js';
 
 /* ------------------------------------------------------------------ */
 /* Render data                                                         */
 /* ------------------------------------------------------------------ */
 $('.services').innerHTML = single.services
   .map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}<span>${s.name === 'Amazon Music' || s.name === 'Deezer' ? 'Play' : 'Stream'} ↗</span></a></li>`)
-  .join('');
-
-$('.timeline__track').innerHTML = timeline
-  .map(
-    (t) => `<article class="frame">
-      <div class="frame__img"><img src="${t.img}" alt="" loading="lazy" /><span class="frame__year">${t.year}</span></div>
-      <h3>${t.title}</h3><p>${t.text}</p>
-    </article>`
-  )
   .join('');
 
 $('.ring__spin').innerHTML = albums
@@ -56,56 +40,11 @@ $('.videos__grid').innerHTML = videos
     <span class="vid__txt"><small>2.09M subscribers</small><b>More on<br/>YouTube ↗</b></span>
   </a>`;
 
-const fmt = (iso) => {
-  const d = new Date(iso + 'T12:00:00');
-  return {
-    day: d.toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase(),
-    rest: d.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric' }).toUpperCase(),
-  };
-};
-$('.shows').innerHTML = shows
-  .map((s) => {
-    const f = fmt(s.date);
-    return `<li class="show"><a href="${s.url}" target="_blank" rel="noopener">
-      <span class="show__date">${f.day}<small>${f.rest}</small></span>
-      <span class="show__city">${s.city}</span>
-      <span class="show__venue">${s.venue}</span>
-      <span class="show__btn">${s.status} ↗</span>
-    </a></li>`;
-  })
-  .join('');
-
-const postHTML = posts
-  .map(
-    (p) => `<a class="post" href="${p.url}" target="_blank" rel="noopener" data-cursor="Open">
-      <span class="post__top"><span>${p.date}</span><span>IG ↗</span></span>
-      <p>${p.text}</p>
-      <span class="post__stat">${p.stat || '@robinthicke'}</span>
-    </a>`
-  )
-  .join('');
-$('.ig__track').innerHTML = postHTML + postHTML.replaceAll('<a class="post"', '<a class="post" aria-hidden="true" tabindex="-1"');
-
-$('.yr').textContent = new Date().getFullYear();
 
 /* ------------------------------------------------------------------ */
 /* Smooth scroll                                                       */
 /* ------------------------------------------------------------------ */
-const lenis = new Lenis({ lerp: 0.09, smoothWheel: !reduced });
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add((t) => lenis.raf(t * 1000));
-gsap.ticker.lagSmoothing(0);
 lenis.stop();
-
-$$('a[href^="#"]').forEach((a) =>
-  a.addEventListener('click', (e) => {
-    const id = a.getAttribute('href');
-    if (id.length < 2 && id !== '#') return;
-    e.preventDefault();
-    document.body.classList.remove('menu-open');
-    lenis.scrollTo(id === '#top' || id === '#' ? 0 : id, { offset: 0, duration: 1.6 });
-  })
-);
 
 /* ------------------------------------------------------------------ */
 /* Split helpers                                                       */
@@ -219,23 +158,13 @@ function intro() {
     })
     .from('.hero__fallback', { scale: 1.3, duration: 2, ease: 'expo.out' }, '-=1.1')
     .from('.hero__title .ch', { yPercent: 110, rotate: 8, duration: 1.4, stagger: 0.05, ease: 'expo.out' }, '-=1.6')
-    .from('.hero__eyebrow span, .hero__lede, .hero__meta .btn, .nav > *', { y: 30, opacity: 0, duration: 1.1, stagger: 0.06, ease: 'expo.out' }, '-=1.1');
+    .from('.hero__eyebrow span, .hero__lede, .hero__ctas > *, .nav > *, .marvin-fab', { y: 30, opacity: 0, duration: 1.1, stagger: 0.06, ease: 'expo.out' }, '-=1.1');
   tl.to(heroState, { reveal: 1, duration: 2.4, ease: 'expo.out' }, 2.0);
 }
 
 /* ------------------------------------------------------------------ */
 /* Scroll animations                                                   */
 /* ------------------------------------------------------------------ */
-// progress bar
-gsap.to('.progress i', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: true } });
-
-// nav hide on scroll down
-let lastY = 0;
-lenis.on('scroll', ({ scroll }) => {
-  $('.nav').classList.toggle('is-hidden', scroll > lastY && scroll > 200 && !document.body.classList.contains('menu-open'));
-  lastY = scroll;
-});
-
 // hero parallax / gl scroll
 gsap.to('.hero__content', { yPercent: -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 gsap.to('.hero__fallback', { scale: 1.15, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
@@ -261,36 +190,6 @@ $$('.words').forEach((el) => {
   gsap.to($$('.w', el), { opacity: 1, stagger: 0.05, ease: 'none', scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: true } });
 });
 
-// counters
-$$('[data-count]').forEach((el) => {
-  const end = +el.dataset.count;
-  const suf = el.dataset.suffix || '';
-  const o = { v: 0 };
-  ScrollTrigger.create({
-    trigger: el,
-    start: 'top 90%',
-    once: true,
-    onEnter: () => gsap.to(o, { v: end, duration: end > 1000 ? 2.4 : 1.8, ease: 'expo.out', onUpdate: () => (el.textContent = Math.round(o.v).toLocaleString('en-US') + suf) }),
-  });
-});
-
-// horizontal timeline
-const track = $('.timeline__track');
-const mm = gsap.matchMedia();
-mm.add('(min-width: 961px)', () => {
-  const dist = () => track.scrollWidth - window.innerWidth;
-  const tween = gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 1, invalidateOnRefresh: true } });
-  $$('.frame').forEach((f) => {
-    gsap.fromTo($('img', f), { scale: 1.35, xPercent: -8 }, { scale: 1.15, xPercent: 8, ease: 'none', scrollTrigger: { trigger: f, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true } });
-    gsap.from($('.frame__year', f), { yPercent: 100, opacity: 0, ease: 'expo.out', duration: 1, scrollTrigger: { trigger: f, containerAnimation: tween, start: 'left 85%' } });
-  });
-});
-mm.add('(max-width: 960px)', () => {
-  track.style.width = 'auto';
-  track.style.flexDirection = 'column';
-  $$('.frame').forEach((f) => { f.style.width = '100%'; gsap.from(f, { y: 80, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: f, start: 'top 85%' } }); });
-});
-
 // gallery reveal + parallax
 $$('.shot').forEach((s, i) => {
   gsap.to($('.mask', s), { scaleY: 0, duration: 1.4, ease: 'expo.inOut', delay: (i % 2) * 0.1, scrollTrigger: { trigger: s, start: 'top 85%' } });
@@ -300,10 +199,6 @@ $$('.shot').forEach((s, i) => {
 // cards stagger
 gsap.from('.card', { y: 100, rotateX: -30, opacity: 0, stagger: 0.07, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.cards', start: 'top 85%' } });
 gsap.from('.vid', { y: 80, opacity: 0, stagger: 0.12, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: '.videos__grid', start: 'top 85%' } });
-gsap.from('.show', { y: 40, opacity: 0, stagger: 0.1, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '.shows', start: 'top 85%' } });
-gsap.fromTo('.live__bg', { yPercent: -10 }, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: '.live', start: 'top bottom', end: 'bottom top', scrub: true } });
-gsap.from('.tv__card', { y: 80, rotateY: (i) => (i ? -12 : 12), opacity: 0, stagger: 0.12, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.tv', start: 'top 80%' } });
-gsap.from('.footer__word span', { yPercent: 100, opacity: 0, stagger: 0.12, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: '.footer__word', start: 'top 95%' } });
 
 /* ------------------------------------------------------------------ */
 /* 3D discography ring                                                 */
@@ -390,68 +285,6 @@ gsap.from('.footer__word span', { yPercent: 100, opacity: 0, stagger: 0.12, dura
     setActive(idx);
   });
 })();
-
-/* ------------------------------------------------------------------ */
-/* Tilt (3D cards)                                                     */
-/* ------------------------------------------------------------------ */
-if (fine && !reduced) {
-  const tilt = (el, max = 14, inner) => {
-    const rx = gsap.quickTo(el, 'rotateX', { duration: 0.6, ease: 'power3' });
-    const ry = gsap.quickTo(el, 'rotateY', { duration: 0.6, ease: 'power3' });
-    gsap.set(el, { transformPerspective: 1000 });
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top) / r.height;
-      rx((0.5 - y) * max);
-      ry((x - 0.5) * max);
-      el.style.setProperty('--gx', x * 100 + '%');
-      el.style.setProperty('--gy', y * 100 + '%');
-      el.style.setProperty('--sx', 100 - x * 100 + '%');
-    });
-    el.addEventListener('pointerleave', () => { rx(0); ry(0); });
-  };
-  $$('[data-tilt]').forEach((el) => tilt(el, 16));
-  $$('.card').forEach((el) => tilt(el, 18));
-}
-
-/* ------------------------------------------------------------------ */
-/* Cursor + magnetic                                                   */
-/* ------------------------------------------------------------------ */
-if (fine) {
-  const cur = $('.cursor');
-  const label = $('.cursor__label');
-  const cx = gsap.quickTo(cur, 'x', { duration: 0.35, ease: 'power3' });
-  const cy = gsap.quickTo(cur, 'y', { duration: 0.35, ease: 'power3' });
-  window.addEventListener('pointermove', (e) => { cx(e.clientX); cy(e.clientY); });
-  document.addEventListener('pointerover', (e) => {
-    const t = e.target.closest('[data-cursor], a, button');
-    cur.classList.toggle('is-label', !!t?.dataset?.cursor);
-    cur.classList.toggle('is-hover', !!t && !t.dataset.cursor);
-    label.textContent = t?.dataset?.cursor || '';
-  });
-
-  $$('[data-magnetic]').forEach((el) => {
-    const mx = gsap.quickTo(el, 'x', { duration: 0.8, ease: 'elastic.out(1, 0.4)' });
-    const my = gsap.quickTo(el, 'y', { duration: 0.8, ease: 'elastic.out(1, 0.4)' });
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      mx((e.clientX - r.left - r.width / 2) * 0.35);
-      my((e.clientY - r.top - r.height / 2) * 0.35);
-    });
-    el.addEventListener('pointerleave', () => { mx(0); my(0); });
-  });
-}
-
-/* ------------------------------------------------------------------ */
-/* Menu                                                                */
-/* ------------------------------------------------------------------ */
-$('.nav__burger').addEventListener('click', () => {
-  const open = document.body.classList.toggle('menu-open');
-  $('.nav__burger').setAttribute('aria-expanded', open);
-  $('.menu').setAttribute('aria-hidden', !open);
-  if (open) gsap.from('.menu li', { y: 80, opacity: 0, stagger: 0.06, duration: 1, ease: 'expo.out', delay: 0.2 });
-});
 
 /* ------------------------------------------------------------------ */
 /* Lightbox                                                            */
@@ -572,34 +405,34 @@ $('.disco__play').addEventListener('click', (e) => {
   });
 })();
 
-/* ------------------------------------------------------------------ */
-/* Live countdown                                                      */
-/* ------------------------------------------------------------------ */
-(() => {
-  const next = shows.find((s) => s.countdownTo && new Date(s.countdownTo) > new Date());
-  const box = $('.countdown');
-  if (!next) { box.hidden = true; return; }
-  const els = { d: $('[data-cd="d"]'), h: $('[data-cd="h"]'), m: $('[data-cd="m"]'), s: $('[data-cd="s"]') };
-  const target = new Date(next.countdownTo).getTime();
-  const pad = (n) => String(n).padStart(2, '0');
-  const tick = () => {
-    let t = Math.max(0, Math.floor((target - Date.now()) / 1000));
-    const d = Math.floor(t / 86400); t %= 86400;
-    const vals = { d: pad(d), h: pad(Math.floor(t / 3600)), m: pad(Math.floor((t % 3600) / 60)), s: pad(t % 60) };
-    for (const k in vals) if (els[k].textContent !== vals[k]) {
-      els[k].textContent = vals[k];
-      if (!reduced) gsap.fromTo(els[k], { yPercent: -30, opacity: 0.3 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: 'expo.out' });
-    }
-  };
-  tick();
-  setInterval(tick, 1000);
-  gsap.from('.countdown__grid > div', { y: 60, opacity: 0, stagger: 0.08, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: box, start: 'top 85%' } });
-})();
-
 // store covers fan out as it scrolls in
 gsap.fromTo('.store__covers img', { rotate: 0, xPercent: 0 }, {
   rotate: (i) => (i - 1) * 12, xPercent: (i) => (i - 1) * 55, ease: 'none',
   scrollTrigger: { trigger: '.store', start: 'top bottom', end: 'center center', scrub: 1 },
 });
 
-window.addEventListener('load', () => ScrollTrigger.refresh());
+/* ------------------------------------------------------------------ */
+/* On stage, prime time, Instagram                                     */
+/* ------------------------------------------------------------------ */
+const { rest } = renderTicket($('.stage__ticket'), { reduced });
+$('.stage__next').innerHTML = rest.map((s, i) => showRow(s, i)).join('');
+gsap.from('.stage .ticket', { y: 120, rotate: -4, opacity: 0, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: '.stage', start: 'top 70%' } });
+gsap.from('.stage .cd__unit', { y: 40, opacity: 0, stagger: 0.08, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '.stage', start: 'top 60%' } });
+gsap.fromTo('.stage__bg img', { yPercent: -12, scale: 1.15 }, { yPercent: 8, scale: 1.05, ease: 'none', scrollTrigger: { trigger: '.stage', start: 'top bottom', end: 'bottom top', scrub: true } });
+gsap.to('.stage__word', { xPercent: -25, ease: 'none', scrollTrigger: { trigger: '.stage', start: 'top bottom', end: 'bottom top', scrub: true } });
+if (fine && !reduced) {
+  const beam = $('.stage__beam');
+  $('.stage').addEventListener('pointermove', (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    gsap.to(beam, { '--bx': ((e.clientX - r.left) / r.width) * 100 + '%', '--by': ((e.clientY - r.top) / r.height) * 100 + '%', duration: 0.8, ease: 'power3', overwrite: true });
+  });
+}
+initTV($('.tv__wrap'), { reduced });
+gsap.from('.tv__set', { y: 80, rotateX: 12, opacity: 0, duration: 1.5, ease: 'expo.out', scrollTrigger: { trigger: '.tv', start: 'top 75%' } });
+initIG($('.ig__track'));
+gsap.from('.igp', { x: 120, opacity: 0, stagger: 0.06, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: '.ig', start: 'top 75%' } });
+
+$$('[data-tilt]').forEach((el) => tilt(el, 12));
+$$('.card').forEach((el) => tilt(el, 18));
+magnetic();
+reveals();
