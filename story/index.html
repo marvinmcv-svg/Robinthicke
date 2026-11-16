@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Story — Robin Thicke</title>
-  <meta name="description" content="Robin Thicke: from a self-taught piano kid in Los Angeles to a Diamond-selling artist and TV regular." />
+  <meta name="description" content="Robin Thicke, 1977 to now: from a self-taught piano kid in Los Angeles to a Diamond-selling artist and TV regular." />
   <meta property="og:title" content="Story — Robin Thicke" />
-  <meta property="og:description" content="Robin Thicke: from a self-taught piano kid in Los Angeles to a Diamond-selling artist and TV regular." />
+  <meta property="og:description" content="From a self-taught piano kid in Los Angeles to a Diamond-selling artist." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://robin-thicke.vercel.app/story/" />
   <meta property="og:image" content="https://robin-thicke.vercel.app/og.jpg" />
@@ -20,32 +20,44 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
   <link rel="stylesheet" href="/src/site.css" />
+  <link rel="stylesheet" href="/src/pages.css" />
 </head>
 <body class="page-story">
   <main id="top">
-    <header class="phead">
-      <div class="phead__bg" style="background-image:url(/img/wiki-2024.webp)"></div>
-      <div class="wrap">
-        <p class="phead__crumb"><a href="/">Robin Thicke</a> / Story</p>
-        <h1 class="display">The <span class="serif">story</span></h1>
-        <p class="phead__lede">Self-taught at twelve, writing hits at sixteen, Diamond-certified at thirty-six. Still at the piano.</p>
-        
+    <header class="shero">
+      <div class="wrap shero__grid">
+        <div class="shero__copy">
+          <p class="phead__crumb"><a href="/">Robin Thicke</a> / Story</p>
+          <h1 class="shero__title"><span>The</span> <em>story</em></h1>
+          <p class="shero__years"><span>1977</span><i></i><span>2026</span></p>
+          <p class="phead__lede">Self-taught at twelve. Writing hits at sixteen. Diamond at thirty-six. Still at the piano. Thirteen chapters, in his own eras.</p>
+          <a class="link-arrow" href="#chapters">Start at the beginning ↓</a>
+        </div>
+        <div class="shero__fan" aria-hidden="true">
+          <figure class="shero__card" style="--r:-9deg;--x:-34%;--y:8%"><img data-era="0" alt="" /><figcaption>2007</figcaption></figure>
+          <figure class="shero__card" style="--r:6deg;--x:30%;--y:-4%"><img data-era="1" alt="" /><figcaption>2013</figcaption></figure>
+          <figure class="shero__card" style="--r:-1deg;--x:0%;--y:0%"><img src="/img/wiki-2024.webp" alt="" /><figcaption>2024</figcaption></figure>
+        </div>
       </div>
     </header>
-    <section class="section">
-      <div class="wrap story-bio">
-        <div>
-          <p>Robin Alan Thicke was born in Los Angeles in 1977, the son of actors Alan Thicke and Gloria Loring. He taught himself piano at twelve, and by sixteen he was writing and producing for R&amp;B acts, first through Brian McKnight and then for Brandy, Color Me Badd, 3T and more.</p>
-          <p>By twenty-one his songs were on more than twenty gold and platinum albums, for Michael Jackson, Usher, Christina Aguilera, Pink and Jennifer Hudson. Then he stepped out from behind the board.</p>
-          <p>The Evolution of Robin Thicke (2006) changed everything: “Lost Without U” spent eleven weeks at No. 1 on Billboard’s R&amp;B chart. Seven years later “Blurred Lines” topped the Hot 100 for twelve weeks and went Diamond. Since 2019 he has sat on the panel of FOX’s The Masked Singer, and in 2026 he became band leader on Name That Tune.</p>
+
+    <section class="chap" id="chapters">
+      <div class="wrap chap__grid">
+        <div class="chap__stage">
+          <div class="chap__frame">
+            <div class="chap__imgs"></div>
+            <span class="chap__year" aria-hidden="true"></span>
+          </div>
+          <div class="chap__meta">
+            <p class="chap__caption"></p>
+            <p class="chap__credit"></p>
+          </div>
+          <ol class="chap__dots" aria-hidden="true"></ol>
         </div>
-        <figure><img src="/img/press-1.webp" alt="Robin Thicke portrait" loading="lazy" /><figcaption>Photo: Matthew Takes</figcaption></figure>
+        <ol class="chap__list"></ol>
       </div>
     </section>
-    <section class="timeline">
-      <div class="timeline__head wrap"><h2 class="display">Evolution<em>,</em><br /><span class="serif">in eight frames</span></h2></div>
-      <div class="timeline__track"></div>
-    </section>
+
     <section class="quote">
       <div class="wrap">
         <blockquote>
@@ -54,6 +66,14 @@
         </blockquote>
       </div>
     </section>
+
+    <section class="section snext">
+      <div class="wrap snext__grid">
+        <a class="snext__card" href="/music/"><small>Next</small><b>Hear every era</b><span>All nine albums, with previews →</span><img src="/img/albums/evolution.webp" alt="" loading="lazy" /></a>
+        <a class="snext__card" href="/achievements/"><small>Then</small><b>The receipts</b><span>GRAMMYs, Diamond, chart peaks →</span><img src="/img/albums/blurred.webp" alt="" loading="lazy" /></a>
+      </div>
+    </section>
+
     <footer data-footer></footer>
   </main>
   <script type="module" src="/src/story.js"></script>

@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Achievements — Robin Thicke</title>
-  <meta name="description" content="Robin Thicke’s GRAMMY nominations, chart records, certifications and songwriting credits." />
+  <meta name="description" content="Robin Thicke’s GRAMMY nominations, RIAA Diamond certification, Billboard chart peaks and songwriting credits." />
   <meta property="og:title" content="Achievements — Robin Thicke" />
-  <meta property="og:description" content="Robin Thicke’s GRAMMY nominations, chart records, certifications and songwriting credits." />
+  <meta property="og:description" content="GRAMMY nominations, a Diamond single, a No. 1 album and two decades of songwriting." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://robin-thicke.vercel.app/achievements/" />
   <meta property="og:image" content="https://robin-thicke.vercel.app/og.jpg" />
@@ -20,39 +20,78 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
   <link rel="stylesheet" href="/src/site.css" />
+  <link rel="stylesheet" href="/src/pages.css" />
 </head>
 <body class="page-achievements">
   <main id="top">
-    <header class="phead">
-      <div class="phead__bg" style="background-image:url(/img/press-2.webp)"></div>
-      <div class="wrap">
-        <p class="phead__crumb"><a href="/">Robin Thicke</a> / Achievements</p>
-        <h1 class="display">The <span class="serif">receipts</span></h1>
-        <p class="phead__lede">GRAMMY nominations, a Diamond single, a No. 1 album, and two decades of songs written for other people.</p>
-        
+    <header class="ahero">
+      <div class="ahero__glow" aria-hidden="true"></div>
+      <div class="wrap ahero__grid">
+        <div>
+          <p class="phead__crumb"><a href="/">Robin Thicke</a> / Achievements</p>
+          <h1 class="display ahero__title">The <span class="serif">receipts</span></h1>
+          <p class="phead__lede">GRAMMY nominations, a Diamond single, a No. 1 album, and two decades of songs written for other people.</p>
+          <div class="ahero__strip">
+            <div><b data-count="5">0</b><span>GRAMMY® nods</span></div>
+            <div><b data-count="12">0</b><span>Weeks at No. 1</span></div>
+            <div><b data-count="14">0</b><span>Countries at No. 1</span></div>
+            <div><b data-count="4">0</b><span>Billboard Music Awards</span></div>
+          </div>
+        </div>
+        <figure class="plaque" data-tilt>
+          <div class="plaque__mat">
+            <div class="plaque__disc"><span class="plaque__label"><img src="/img/albums/blurred.webp" alt="" /></span></div>
+            <div class="plaque__plate">
+              <b>RIAA Diamond</b>
+              <span>“Blurred Lines” · Robin Thicke feat. T.I. &amp; Pharrell</span>
+              <small>10,000,000 units · United States</small>
+            </div>
+          </div>
+          <span class="glare"></span>
+          <figcaption>Illustration of the certification, not the physical award.</figcaption>
+        </figure>
       </div>
     </header>
-    <section class="section">
-      <div class="wrap"><div class="honours"></div></div>
-    </section>
+
     <section class="section">
       <div class="wrap">
-        <div class="section__head"><h2 class="display">GRAMMY<span class="serif">®</span></h2><p>Five nominations across his career. The three below came on one night: the 56th GRAMMY Awards.</p></div>
-        <ul class="noms"></ul>
+        <div class="section__head"><h2 class="display">The <span class="serif">wall</span></h2><p>Six numbers that tell most of it.</p></div>
+        <div class="wall"></div>
       </div>
     </section>
+
+    <section class="section gram">
+      <div class="wrap">
+        <div class="gram__head">
+          <svg class="gram__horn" viewBox="0 0 120 120" aria-hidden="true"><path d="M60 98v10M44 110h32" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="60" cy="88" r="10" fill="none" stroke="currentColor" stroke-width="4"/><path d="M60 78 C58 60 46 46 22 34 C20 22 30 12 42 14 C58 30 70 46 66 78" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg>
+          <div>
+            <p class="eyebrow">The 56th Annual GRAMMY® Awards</p>
+            <h2 class="display">Nominated<span class="serif">, three times in one night</span></h2>
+            <p class="gram__when">January 26, 2014 · Staples Center, Los Angeles · Five career nominations in all</p>
+          </div>
+        </div>
+        <ul class="envs"></ul>
+      </div>
+    </section>
+
     <section class="section">
       <div class="wrap">
-        <div class="section__head"><h2 class="display">Chart<span class="serif"> peaks</span></h2><p>Where each album peaked on the Billboard 200. Longer bar, higher peak.</p></div>
-        <ul class="peaks"></ul>
+        <div class="section__head"><h2 class="display">Chart<span class="serif"> peaks</span></h2><p>Billboard 200 peak for every album. The taller the column, the higher it climbed.</p></div>
+        <div class="skyline" role="img" aria-label="Billboard 200 peak positions by album"></div>
       </div>
     </section>
+
     <section class="section">
-      <div class="wrap">
-        <div class="section__head"><h2 class="display">Written<span class="serif"> for others</span></h2><p>Before the solo career, he was the songwriter in the room.</p></div>
-        <div class="credits"></div>
+      <div class="wrap liner">
+        <div class="liner__side">
+          <p class="eyebrow">Liner notes</p>
+          <h2 class="display">Written<br /><span class="serif">for others</span></h2>
+          <p>Before the solo career he was the songwriter and producer in the room, with songs on more than twenty gold and platinum albums.</p>
+        </div>
+        <ol class="liner__list"></ol>
       </div>
     </section>
+
     <footer data-footer></footer>
   </main>
   <script type="module" src="/src/achievements.js"></script>

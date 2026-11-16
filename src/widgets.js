@@ -1,6 +1,7 @@
 // Home-page widgets: the TV "channel" set and the real Instagram feed.
 import gsap from 'gsap';
 import { tv, posts, links } from './data.js';
+import { consent } from './consent.js';
 
 /* ------------------------------------------------------------------ */
 /* Prime time — a two-channel set with static between channels         */
@@ -86,16 +87,28 @@ export function initIG(track) {
     .join('') +
     `<a class="igp igp--more" href="${links.instagram}" target="_blank" rel="noopener"><span>More on<br/>Instagram ↗</span></a>`;
 
-  // Load the embeds only when the feed is about to be seen.
+  // Load the embeds only with consent, and only when the feed is about to be seen.
+  const load = () => track.querySelectorAll('iframe[data-src]').forEach((f, i) => setTimeout(() => {
+    if (f.src) return;
+    f.addEventListener('load', () => f.closest('.igp').classList.add('is-loaded'), { once: true });
+    f.src = f.dataset.src;
+  }, i * 150));
+  let near = false;
   const io = new IntersectionObserver((entries) => {
     if (!entries.some((e) => e.isIntersecting)) return;
     io.disconnect();
-    track.querySelectorAll('iframe[data-src]').forEach((f, i) => setTimeout(() => {
-      f.addEventListener('load', () => f.closest('.igp').classList.add('is-loaded'), { once: true });
-      f.src = f.dataset.src;
-    }, i * 150));
+    near = true;
+    if (consent.embedsAllowed()) load();
   }, { rootMargin: '600px' });
   io.observe(track);
+  consent.onChange((v) => { if (v === 'all' && near) load(); });
+  const gate = track.closest('.ig')?.querySelector('.ig__gate');
+  if (gate) {
+    const sync = () => (gate.hidden = consent.embedsAllowed());
+    sync();
+    consent.onChange(sync);
+    gate.querySelector('button').addEventListener('click', () => { consent.allowEmbeds(); near = true; load(); });
+  }
 
   // drag to scroll on desktop
   let down = false, sx = 0, sl = 0, moved = 0;

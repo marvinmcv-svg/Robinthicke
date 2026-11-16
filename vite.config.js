@@ -12,6 +12,7 @@ export default defineConfig({
         tour: page('tour/index.html'),
         achievements: page('achievements/index.html'),
         story: page('story/index.html'),
+        ...Object.fromEntries(['terms', 'privacy', 'cookies', 'accessibility', 'credits'].map((p) => [`legal-${p}`, page(`legal/${p}/index.html`)])),
       },
     },
   },

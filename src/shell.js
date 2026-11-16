@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { links } from './data.js';
 import { initPlayer } from './player.js';
+import { initConsentBanner } from './consent.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -92,7 +93,11 @@ if (footer) {
       <span>© ${new Date().getFullYear()} Robin Thicke</span>
       <span class="footer__dedic">Miss u Pops &amp; Andre Harrell ♥</span>
       <a href="#top" class="link-arrow">Back to top ↑</a>
-    </div>`;
+    </div>
+    <nav class="wrap footer__legal" aria-label="Legal">
+      <a href="/legal/terms/">Terms of Use</a><a href="/legal/privacy/">Privacy</a><a href="/legal/cookies/">Cookies</a><a href="/legal/accessibility/">Accessibility</a><a href="/legal/credits/">Credits &amp; copyright</a><button type="button" data-consent-open>Cookie settings</button>
+      <span>Marvin is an AI assistant, not Robin Thicke. Tickets and merchandise are sold by third parties.</span>
+    </nav>`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -254,5 +259,6 @@ document.addEventListener('click', async (e) => {
 });
 setTimeout(() => $('.marvin-fab').classList.add('is-in'), document.body.classList.contains('is-loading') ? 3200 : 900);
 
+initConsentBanner();
 window.addEventListener('load', () => ScrollTrigger.refresh());
 magnetic();
